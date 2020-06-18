@@ -34,19 +34,17 @@ let averageDollarValue = fp.flowRight(_avergae, fp.map(funciton(car){ return car
 const sanitizeNames = fp.map((str) => fp.flowRight(_underscore, fp.toLower(str)))
 
 /* 三 练习1 */
-let ex1 = (args) => {
-    return maybe.map(function (args) {
-        fp.map(fp.add(1), args)
-    })
+let ex1 = () => {
+    return maybe.map((arr) => fp.map(fp.add(1), arr))
 }
 
 /* 三 练习2 */
-let ex2 = (xs) => {
-    return xs.map(fp.first)
+let ex2 = () => {
+    return xs.map((arr)=>fp.first(arr))
 }
 
 /* 三 练习3 */
-let ex3 = (user) => {
+let ex3 = () => {
     let str = safeProp('name', user)//Maybe._value = "Albert"
     return str.map(function (args) { return fp.first(args.split("")) })
 }
@@ -57,11 +55,15 @@ let ex4 = function (n) {
 }
 
 /* 四 */
+
+//状态
 const PENDING = 'pending'
 const FULFUILLED = 'fulfilled'
 const REJECTED = 'rejected'
 
 class MyPromise {
+
+	//构造函数，开始构建MyPromise如果有问题直接reject
     constructor(executor) {
         try {
             executor(this.resolve, this.reject)
@@ -80,7 +82,6 @@ class MyPromise {
         if (this.status !== PENDING) return;
         this.status = FULFUILLED
         this.value = value
-        //this.successCallback && this.successCallback(this.value)//如果成功回调存在 就调用
         while (this.successCallback.length) {
             this.successCallback.shift()();
         }
@@ -90,7 +91,6 @@ class MyPromise {
         if (this.status !== PENDING) return;
         this.status = REJECTED
         this.reason = reason
-        //this.failCallback && this.successCallback(this.reason)
         while (this.failCallback.length) {
             this.failCallback.shift()();
         }
@@ -98,14 +98,17 @@ class MyPromise {
     }
     
     then(successCallback, failCallback) {
+
+    	//让结果更顺利的传递，例如then-catch的时候，可以顺利传递到catch中
         successCallback = successCallback ? successCallback : value => value;
         failCallback = failCallback ? failCallback : reason => { throw reason };
+
         let promise2 = new MyPromise((resolve, reject) => {
             if (this.status === FULFUILLED) {
-
                 setTimeout(() => {
                     try {
                         let x = successCallback(this.value)
+                        //检查是否自己返回了自己
                         resolvePromise(promise2, x, resolve, reject)
                         console.log(promise2 === x);
                     } catch (e) {
@@ -192,6 +195,7 @@ class MyPromise {
             resolve(result)
         })
     }
+    //resolve快捷方法
     static resolve (value) {
         if(value instanceof MyPromise) return value;
         return new MyPromise(resolve => resolve(value))
@@ -205,7 +209,6 @@ function resolvePromise(promise2, x, resolve, reject) {
     }
 
     if (x instanceof MyPromise) {
-        //x.then((value)=>{resolve(value)},(error)=>{reject(error)})
         x.then(resolve, reject)
     } else {
         resolve(x)
