@@ -108,7 +108,6 @@ class MyPromise {
                 setTimeout(() => {
                     try {
                         let x = successCallback(this.value)
-                        //检查是否自己返回了自己
                         resolvePromise(promise2, x, resolve, reject)
                         console.log(promise2 === x);
                     } catch (e) {
@@ -203,6 +202,8 @@ class MyPromise {
     
 }
 
+
+//防止循环
 function resolvePromise(promise2, x, resolve, reject) {
     if (promise2 === x) {
         reject(new TypeError('Changing cycle detected for promise #<Promise>'))
