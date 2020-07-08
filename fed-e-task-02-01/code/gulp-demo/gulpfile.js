@@ -64,7 +64,7 @@ const script = () => {
 //html模版编译
 const page = () => {
   return src("src/**.html", { base: "src" })
-    .pipe(plugins.swig())
+    .pipe(plugins.swig({ data }))
     .pipe(dest("temp"));
 };
 
@@ -92,13 +92,8 @@ const serve = () => {
   watch("src/assets/styles/*.scss", style);
   watch("src/assets/scripts/*.js", script);
   watch("src/*.html", page);
-  // watch("src/assets/images/**", image)
-  // watch("src/assets/fonts/**", font)
-  // watch("public/**", extra)
-  watch(
-    ["src/assets/images/**", "src/assets/fonts/**", "public/**"],
-    bs.reload
-  );
+  
+  watch(["src/assets/images/**", "src/assets/fonts/**", "public/**"], bs.reload);
 
   bs.init({
     notify: false,
