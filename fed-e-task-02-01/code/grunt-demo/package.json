@@ -46,7 +46,7 @@
     "grunt-contrib-cssmin": "^3.0.0",
     "grunt-parallel": "^0.5.1",
     "grunt-swigtemplates": "^0.1.2",
-    "jquery": "3.4.1",
+    "jquery": "3.5.0",
     "popper.js": "1.16.1"
   },
   "devDependencies": {
