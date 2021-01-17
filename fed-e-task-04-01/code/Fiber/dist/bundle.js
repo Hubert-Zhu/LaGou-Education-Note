@@ -11,7 +11,9 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./react */ "./src/react/index.js");
 
+var root = document.getElementById("root");
 var jsx = /*#__PURE__*/_react__WEBPACK_IMPORTED_MODULE_0__.default.createElement("div", null, /*#__PURE__*/_react__WEBPACK_IMPORTED_MODULE_0__.default.createElement("p", null, "Hello React"));
+(0,_react__WEBPACK_IMPORTED_MODULE_0__.render)(jsx, root);
 
 /***/ }),
 
@@ -758,9 +760,6 @@ var render = function render(element, dom) {
   /**
    * 1. 向任务队列中添加任务
    * 2. 指定在浏览器空闲时执行任务
-   */
-
-  /**
    * 任务就是通过 vdom 对象 构建 fiber 对象
    */
   taskQueue.push({
